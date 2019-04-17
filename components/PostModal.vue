@@ -1,17 +1,18 @@
 <template>
-  <div class="section">
-    <div class="card">
-      <header class="card-header">
+  <div class="modal is-active">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
         <p class="card-header-title">
           {{post.title}}
         </p>
       </header>
       <div class="card-image" v-if="post.images.length">
-        <figure class="image is-4by3">
+        <figure class="image is-3by1">
           <img :src="post.images[0].src" alt="Placeholder image">
         </figure>
       </div>
-      <div class="card-content">
+      <div class="modal-card-body">
         <div class="content">
           <p v-html="post.content.split('\n').join('<br>')"></p>
           <a href="#">#css</a> <a href="#">#responsive</a>
@@ -19,11 +20,14 @@
           <time :datetime="$moment(post.created_at).format()">{{$moment(post.created_at).fromNow()}}</time>
         </div>
       </div>
-      <footer class="card-footer">
+      <footer class="modal-card-foot">
         <a class="card-footer-item"><b>{{ post.score }}</b></a>
         <a class="card-footer-item" :class="{'has-text-danger': post.is_liked}" @click="doLike"><i class="fas fa-heart"></i>({{ post.likes_count }})</a>
         <a class="card-footer-item" :class="{'has-text-danger': post.is_disliked}" @click="doDislike"><i class="fas fa-heart-broken is-danger"></i>({{ post.dislikes_count }})</a>
-        <nuxt-link v-if="$route.name != 'posts-id'" :to="'/posts/' + post.id" class="card-footer-item"><i class="fas fa-comment"></i></nuxt-link>
+        <a class="card-footer-item"><i class="fas fa-comment"></i></a>
+      </footer>
+      <footer class="modal-card-foot">
+        <a class="card-footer-item"></a>
       </footer>
     </div>
   </div>
@@ -31,19 +35,11 @@
 
 <script>
     export default {
-        name: "post",
+        name: "PostModal",
       props: ['post'],
-      methods: {
-          doLike(){
-            this.$store.dispatch('posts/likePost', this.post.id);
-          },
-          doDislike(){
-            this.$store.dispatch('posts/dislikePost', this.post.id);
-          }
-      }
     }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 
 </style>

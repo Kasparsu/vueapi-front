@@ -33,7 +33,7 @@ export const actions = {
   login(context){
     this.$api.service.post('login', context.state.forms.login).then((resp) => {
       window.localStorage.setItem('token', resp.token);
-      context.dispatch('auth/setToken', resp.token);
+      context.dispatch('setToken', resp.token);
       this.$router.go({ path: '/posts' })
     });
   },
@@ -53,9 +53,15 @@ export const actions = {
   register(context){
     this.$api.service.post('register', context.state.forms.register).then((resp) => {
       window.localStorage.setItem('token', resp.token);
-      context.dispatch('auth/setToken', resp.token);
+      context.dispatch('setToken', resp.token);
       context.commit('SET_USER', resp.user);
       this.$router.go({ path: '/posts' })
+    });
+  },
+  refresh(context) {
+    this.$api.service.get('refresh').then((resp) => {
+      window.localStorage.setItem('token', resp.token);
+      context.dispatch('setToken', resp.token);
     });
   }
 };
