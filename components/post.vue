@@ -3,7 +3,7 @@
     <div class="card">
       <header class="card-header">
         <p class="card-header-title">
-          {{post.title}}
+          {{safeTitle}}
         </p>
       </header>
       <div class="card-image" v-if="post.images.length">
@@ -13,7 +13,7 @@
       </div>
       <div class="card-content">
         <div class="content">
-          <p v-html="post.content.split('\n').join('<br>')"></p>
+          <p v-html="safeContent.split('\n').join('<br>')"></p>
           <a href="#">#css</a> <a href="#">#responsive</a>
           <br>
           <time :datetime="$moment(post.created_at).format()">{{$moment(post.created_at).fromNow()}}</time>
@@ -40,6 +40,14 @@
           doDislike(){
             this.$store.dispatch('posts/dislikePost', this.post.id);
           }
+      },
+      computed: {
+        safeTitle() {
+          return this.$filter.clean(this.post.title);
+        },
+        safeContent() {
+          return this.$filter.clean(this.post.content);
+        }
       }
     }
 </script>

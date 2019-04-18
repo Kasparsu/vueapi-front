@@ -43,6 +43,7 @@ export default {
     '@/plugins/scrollDirective',
     '@/plugins/echo',
     '@/plugins/api',
+    '@/plugins/filter'
   ],
 
   /*
