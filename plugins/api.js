@@ -1,7 +1,13 @@
 import ServiceContainer from "../services/serviceContainer";
 
 export default ({ app }, inject) => {
-  inject('api', new ServiceContainer(app.$axios))
+  inject('api', new ServiceContainer(app.$axios));
+  app.$axios.interceptors.request.use((config) => {
+    if (app.$echo.socketId()) {
+      config.headers['X-Socket-Id'] = app.$echo.socketId();
+    }
+    return config;
+  });
   app.$axios.interceptors.response.use((response) => {
     if(response.data.status && response.data.status === "Token is Expired"){
       app.store.dispatch('auth/refresh');

@@ -18,8 +18,10 @@
     "bulma": "^0.7.4",
     "cross-env": "^5.2.0",
     "faker": "^4.1.0",
+    "laravel-echo": "^1.5.3",
     "nuxt": "^2.4.0",
-    "nuxt-sass-resources-loader": "^2.0.5"
+    "nuxt-sass-resources-loader": "^2.0.5",
+    "pusher-js": "^4.4.0"
   },
   "devDependencies": {
     "node-sass": "^4.11.0",

@@ -41,6 +41,7 @@ export default {
   */
   plugins: [
     '@/plugins/scrollDirective',
+    '@/plugins/echo',
     '@/plugins/api',
   ],
 

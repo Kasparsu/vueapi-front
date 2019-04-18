@@ -23,7 +23,7 @@
         <a class="card-footer-item"><b>{{ post.score }}</b></a>
         <a class="card-footer-item" :class="{'has-text-danger': post.is_liked}" @click="doLike"><i class="fas fa-heart"></i>({{ post.likes_count }})</a>
         <a class="card-footer-item" :class="{'has-text-danger': post.is_disliked}" @click="doDislike"><i class="fas fa-heart-broken is-danger"></i>({{ post.dislikes_count }})</a>
-        <nuxt-link v-if="$route.name != 'posts-id'" :to="'/posts/' + post.id" class="card-footer-item"><i class="fas fa-comment"></i></nuxt-link>
+        <nuxt-link v-if="$route.name != 'posts-id'" :to="'/posts/' + post.id" class="card-footer-item"><i class="fas fa-comment"></i>({{post.comments_count}})</nuxt-link>
       </footer>
     </div>
   </div>

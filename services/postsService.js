@@ -18,4 +18,10 @@ export default class PostsService extends Service {
   undislike(postId){
     return this.get(postId + '/undislike')
   }
+  comment(postId, content){
+    return this.post(postId + '/comment', {content: content});
+  }
+  pollComments(postId, length){
+    return this.get(postId + '/comments?length=' + length);
+  }
 }
