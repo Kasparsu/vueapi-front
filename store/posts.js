@@ -59,6 +59,9 @@ export const mutations = {
   SET_COMMENT_TEXT(state, value){
     state.comment.text = value;
   },
+  SET_COMMENT(state, comment) {
+    state.single.comments[comment.id] = comment;
+  },
   ADD_COMMENT(state, value){
     state.single.comments.push(value);
   }
@@ -155,6 +158,19 @@ export const actions = {
     call.then( response =>{
       let index = context.state.list.findIndex(el => el.id==response.id);
       context.commit('SET_POST', {data:response, index: index});
+    });
+  },
+  likeComment(context, commentId) {
+    let comment = context.state.single.comments.filter((el)=> el.id == commentId)[0];
+    let call;
+    if(!comment.is_liked){
+      call = this.$api.comments.like(commentId);
+    } else {
+      call = this.$api.comments.unlike(commentId);
+    }
+    call.then( response =>{
+      let index = context.state.single.comments.findIndex(el => el.id==response.id);
+      context.commit('SET_COMMENT', {data:response, index: index});
     });
   },
   getPost(context, postId){
