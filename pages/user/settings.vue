@@ -1,20 +1,20 @@
 <template>
-  <div id="window">
-    <p>{{this.$store.state.auth.user.settings.values.dark_mode_enabled}}</p>
+  <div id="window" v-if="$store.state.auth.user.settings">
     <div class="field">
       <label class="label">Age</label>
       <div class="control">
-        <input class="input" type="text">
+        <input class="input" type="text" v-model="age">
       </div>
     </div>
     <div class="field">
       <label class="label">Dark mode</label>
-      <input id="dark_switch" type="checkbox">
+      <input id="dark_switch" type="checkbox" v-model="dark_mode">
     </div>
     <div class="field">
       <label class="label">Language filter</label>
-      <input id="language_filter_switch" type="checkbox" :checked="dark">
+      <input id="language_filter_switch" type="checkbox" v-model="language_filter">
     </div>
+    <button class="button is-success" @click="save">Save changes</button>
   </div>
 </template>
 
@@ -22,12 +22,39 @@
   export default {
     name: "user",
     layout: 'signedIn',
-    data: {
-
-    },
     computed:{
-      dark() {
-        return this.$store.state.auth.user.settings.values.dark_mode_enabled
+      age: {
+        get() {
+          return this.userSettings.age;
+        },
+        set(newValue) {
+          this.$store.dispatch('auth/setUserSetting', ["age", newValue]);
+          this.$store.dispatch('auth/setUserSetting', ["thisshouldnotbeallowed", newValue]);
+        },
+      },
+      dark_mode: {
+        get() {
+          return this.userSettings.dark_mode_enabled;
+        },
+        set(newValue) {
+          this.$store.dispatch('auth/setUserSetting', ["dark_mode_enabled", newValue]);
+        },
+      },
+      language_filter: {
+        get() {
+          return this.userSettings.language_filter_enabled;
+        },
+        set(newValue) {
+          this.$store.dispatch('auth/setUserSetting', ["language_filter_enabled", newValue]);
+        },
+      },
+      userSettings() {
+        return this.$store.state.auth.user.settings.values
+      }
+    },
+    methods: {
+      save() {
+        this.$store.dispatch('auth/updateUserSettings')
       }
     }
   }

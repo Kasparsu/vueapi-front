@@ -24,6 +24,9 @@ export const mutations = {
   },
   SET_USER(state, user){
     state.user = user;
+  },
+  SET_USER_SETTING(state, payload) {
+    state.user.settings.values[payload[0]] = payload[1];
   }
 };
 export const actions = {
@@ -64,6 +67,13 @@ export const actions = {
     }).error(error => {
       console.log(error);
     });
+  },
+  updateUserSettings(context) {
+    this.$api.service.post('usersettings', context.state.user.settings.values).then(($resp) => {
+    });
+  },
+  setUserSetting(context, payload) {
+    context.commit('SET_USER_SETTING', payload);
   }
 };
 export const getters = {
