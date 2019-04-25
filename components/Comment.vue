@@ -7,6 +7,10 @@
       <div>
         @{{ comment.user.name }}
       </div>
+      <div>
+        {{ comment.created_at }}
+      </div>
+      <br>
       <footer class="card-footer">
         <a class="card-footer-item" :class="{'has-text-danger': comment.is_liked}" @click="doLike"><i class="fas fa-heart"></i>{{ comment.likes_count }}</a>
       </footer>

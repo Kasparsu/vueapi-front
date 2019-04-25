@@ -6,6 +6,7 @@ export const state = () => ({
     last_page:0
   },
   isLoading: false,
+  isSettingComment: false,
   comment: {
     text: "",
   },
@@ -38,6 +39,9 @@ export const mutations = {
   TOGGLE_IS_LOADING(state){
     state.isLoading = !state.isLoading;
   },
+  TOGGLE_IS_SETTING_COMMENT(state){
+    state.isSettingComment = !state.isSettingComment;
+  },
   TOGGLE_MODAL(state, key){
     state.modal[key].active = !state.modal[key].active;
   },
@@ -59,8 +63,8 @@ export const mutations = {
   SET_COMMENT_TEXT(state, value){
     state.comment.text = value;
   },
-  SET_COMMENT(state, comment) {
-    state.single.comments[comment.id] = comment;
+  SET_COMMENT(state, payload) {
+    state.single.comments.splice(payload.index, 1, payload.comment);
   },
   ADD_COMMENT(state, value){
     state.single.comments.push(value);
@@ -170,7 +174,7 @@ export const actions = {
     }
     call.then( response =>{
       let index = context.state.single.comments.findIndex(el => el.id==response.id);
-      context.commit('SET_COMMENT', {data:response, index: index});
+      context.commit('SET_COMMENT', {comment:response, index: index});
     });
   },
   getPost(context, postId){
@@ -211,5 +215,10 @@ export const actions = {
   }
 };
 export const getters = {
-
+  commentsSortedByOldest: (state, getters) => {
+    return Object.assign({}, state.single.comments);
+  },
+  commentsSortedByNewest: () => {
+    return  Object.assign({}, state.single.comments).reverse();
+  }
 };
