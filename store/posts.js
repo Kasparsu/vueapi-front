@@ -64,6 +64,14 @@ export const mutations = {
   }
 };
 export const actions = {
+  loadFavoritesPosts(context){
+    this.$api.service.get('favorites/get').then((response)=>{
+      context.commit('ADD_POSTS', response.data);
+      // delete response.data;
+      // context.commit('SET_PAGINATION', response);
+      // context.commit('TOGGLE_IS_LOADING');
+    })
+  },
   loadNextPosts(context) {
     context.commit('TOGGLE_IS_LOADING');
     this.$api.posts.page(context.state.pagination.current_page + 1).then((response)=>{
