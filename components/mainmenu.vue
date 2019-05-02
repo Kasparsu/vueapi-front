@@ -25,6 +25,10 @@
               Profile
             </a>
             <hr class="navbar-divider">
+            <a class="navbar-item" href="/user/settings">
+              Account settings
+            </a>
+            <hr class="navbar-divider">
             <a class="navbar-item" @click="$store.dispatch('auth/logout')">
               Logout
             </a>
