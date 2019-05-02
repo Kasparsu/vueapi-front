@@ -1,5 +1,5 @@
 <template>
-  <section class="hero is-success is-fullheight is-marginless">
+  <section class="hero is-fullheight is-marginless" :class="'is-'+this.color()">
     <!-- Hero head: will stick at the top -->
     <div class="hero-head ">
     </div>
@@ -10,7 +10,7 @@
           {{this.currentThought.title}}
         </h1>
         <h4 class="subtitle is-flex">
-          <a target="_blank" rel="noopener noreferrer" :href="this.currentThought.link_url">Source </a>
+          <a target="_blank" rel="noopener noreferrer" :href="this.currentThought.link_url" class="is-link">Source </a>
         </h4>
       </div>
     </div>
@@ -43,7 +43,17 @@
 
   export default {
     name: "ShowerThought",
+    data() {
+      return {
+        colors: ['primary', 'link', 'info', 'success', 'warning', 'danger',],
+        currentColor: '',
+      }
+    },
     created() {
+      this.color();
+
+    },
+    beforeCreate() {
       this.$store.dispatch('thoughts/loadThought');
     },
     computed: {
@@ -59,6 +69,9 @@
       }
     },
     methods: {
+      color() {
+        return this.colors[Math.floor(Math.random() * this.colors.length)];
+      },
       loadNextPost() {
         let current = this.currentPageInfo.current_page;
         let max = this.currentPageInfo.last_page;
@@ -78,7 +91,8 @@
 
       },
       loadThought(page) {
-        this.$store.dispatch('thoughts/loadNextThought', page)
+        this.$store.dispatch('thoughts/loadNextThought', page);
+        this.color();
       }
     }
   }
