@@ -6,9 +6,11 @@ export const state = () => ({
     last_page:0
   },
   isLoading: false,
+  isSettingComment: false,
   comment: {
     text: "",
   },
+  commentsSortOption: 0,
   modal: {
     edit: {
       active: false,
@@ -38,6 +40,9 @@ export const mutations = {
   TOGGLE_IS_LOADING(state){
     state.isLoading = !state.isLoading;
   },
+  TOGGLE_IS_SETTING_COMMENT(state){
+    state.isSettingComment = !state.isSettingComment;
+  },
   TOGGLE_MODAL(state, key){
     state.modal[key].active = !state.modal[key].active;
   },
@@ -59,8 +64,14 @@ export const mutations = {
   SET_COMMENT_TEXT(state, value){
     state.comment.text = value;
   },
+  SET_COMMENT(state, payload) {
+    state.single.comments.splice(payload.index, 1, payload.comment);
+  },
   ADD_COMMENT(state, value){
     state.single.comments.push(value);
+  },
+  SET_COMMENTS_SORT(state, value) {
+    state.commentsSortOption = value;
   }
 };
 export const actions = {
@@ -157,6 +168,19 @@ export const actions = {
       context.commit('SET_POST', {data:response, index: index});
     });
   },
+  likeComment(context, commentId) {
+    let comment = context.state.single.comments.filter((el)=> el.id == commentId)[0];
+    let call;
+    if(!comment.is_liked){
+      call = this.$api.comments.like(commentId);
+    } else {
+      call = this.$api.comments.unlike(commentId);
+    }
+    call.then( response =>{
+      let index = context.state.single.comments.findIndex(el => el.id==response.id);
+      context.commit('SET_COMMENT', {comment:response, index: index});
+    });
+  },
   getPost(context, postId){
     let posts = context.state.list;
     if(posts.length){
@@ -192,8 +216,24 @@ export const actions = {
   },
   addComment(context, comment){
     context.commit('ADD_COMMENT', comment);
+  },
+  setCommentsSortOption(context, index) {
+    context.commit('SET_COMMENTS_SORT', index)
   }
 };
 export const getters = {
-
+  commentsSortedByOldest: (state) => {
+    let comments = Object.assign({}, state.single.comments);
+    return Object.values(comments);
+  },
+  commentsSortedByNewest: (state) => {
+    let comments = Object.assign({}, state.single.comments);
+    return Object.values(comments).reverse();
+  },
+  commentsSortedByMostLikes: (state) => {
+    let comments = Object.assign({}, state.single.comments);
+    let commentsArr = Object.values(comments);
+    commentsArr.sort((a, b) => (a.likes_count < b.likes_count) ? 1 : -1);
+    return commentsArr;
+  }
 };
