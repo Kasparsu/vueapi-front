@@ -47,7 +47,7 @@
             links: [
               {title: 'Index', link: '/'},
               {title: 'Posts', link: '/posts'},
-              {title: 'List', link: '/posts/list'},
+              {title: 'List', link: '/posts/list'}
             ]
           }
       },
