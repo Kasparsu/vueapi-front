@@ -1,5 +1,6 @@
-const Filter = require('bad-words');
+import EpicFilter from "../src/EpicFilter.js";
+
 export default ({ app }, inject) => {
-  filter.addWords('featuur');
+  let filter = new EpicFilter();
   inject('filter', filter);
 }
