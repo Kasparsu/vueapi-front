@@ -3,7 +3,7 @@
       <div class="dropdown" :class="{'is-active': dropdown.isActive}">
         <div class="dropdown-trigger">
           <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" @click="dropdown.isActive = !dropdown.isActive" @blur="dropdownBlur">
-            <span>{{dropdown.options[dropdown.currentOption]}}</span>
+            <span>{{dropdown.options[$store.state.posts.commentsSortOption]}}</span>
             <span class="icon is-small">
               <i class="fas fa-angle-down" aria-hidden="true"></i>
             </span>
@@ -32,15 +32,12 @@
           isActive: false,
           currentOption: 0,
           options: [
+            "Likes",
             "Newest",
-            "Oldest",
-            "Most Likes"
+            "Oldest"
           ]
         }
       }
-    },
-    created() {
-      //this.changeDropdownOption(0);
     },
     methods: {
       dropdownBlur() {
@@ -49,12 +46,22 @@
         setTimeout(function(){ dropdown.isActive = false; }, 200);
       },
       changeDropdownOption(index) {
-        this.dropdown.currentOption = index;
+        this.$store.dispatch('posts/setCommentsSortOption', index);
       },
     },
     computed: {
       sortedComments() {
-        if (index == 0) return $store.getters.commentsSortedByNewest;
+        switch(this.$store.state.posts.commentsSortOption) {
+          case 0:
+            return this.$store.getters['posts/commentsSortedByMostLikes'];
+            break;
+          case 1:
+            return this.$store.getters['posts/commentsSortedByNewest'];
+            break;
+          case 2:
+            return this.$store.getters['posts/commentsSortedByOldest'];
+            break;
+        }
       }
     }
   }

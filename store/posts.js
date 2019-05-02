@@ -10,6 +10,7 @@ export const state = () => ({
   comment: {
     text: "",
   },
+  commentsSortOption: 0,
   modal: {
     edit: {
       active: false,
@@ -68,6 +69,9 @@ export const mutations = {
   },
   ADD_COMMENT(state, value){
     state.single.comments.push(value);
+  },
+  SET_COMMENTS_SORT(state, value) {
+    state.commentsSortOption = value;
   }
 };
 export const actions = {
@@ -212,13 +216,24 @@ export const actions = {
   },
   addComment(context, comment){
     context.commit('ADD_COMMENT', comment);
+  },
+  setCommentsSortOption(context, index) {
+    context.commit('SET_COMMENTS_SORT', index)
   }
 };
 export const getters = {
-  commentsSortedByOldest: (state, getters) => {
-    return Object.assign({}, state.single.comments);
+  commentsSortedByOldest: (state) => {
+    let comments = Object.assign({}, state.single.comments);
+    return Object.values(comments);
   },
-  commentsSortedByNewest: () => {
-    return  Object.assign({}, state.single.comments).reverse();
+  commentsSortedByNewest: (state) => {
+    let comments = Object.assign({}, state.single.comments);
+    return Object.values(comments).reverse();
+  },
+  commentsSortedByMostLikes: (state) => {
+    let comments = Object.assign({}, state.single.comments);
+    let commentsArr = Object.values(comments);
+    commentsArr.sort((a, b) => (a.likes_count < b.likes_count) ? 1 : -1);
+    return commentsArr;
   }
 };
