@@ -30,7 +30,6 @@
       return {
         dropdown: {
           isActive: false,
-          currentOption: 0,
           options: [
             "Likes",
             "Newest",
