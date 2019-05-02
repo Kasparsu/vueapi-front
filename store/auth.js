@@ -12,6 +12,11 @@ export const state = () => ({
       password_confirmation: '',
       name: ''
     }
+  },
+  userSettingsFeedbackModal: {
+    success: true,
+    message: '',
+    enabled: false,
   }
 });
 
@@ -27,6 +32,14 @@ export const mutations = {
   },
   SET_USER_SETTING(state, payload) {
     state.user.settings.values[payload[0]] = payload[1];
+  },
+  ENABLE_USER_SETTING_MODAL(state, payload) {
+    state.userSettingsFeedbackModal.enabled = true;
+    state.userSettingsFeedbackModal.message = payload.message;
+    state.userSettingsFeedbackModal.success = payload.success;
+  },
+  DISABLE_USER_SETTING_MODAL(state) {
+    state.userSettingsFeedbackModal.enabled = false;
   }
 };
 export const actions = {
@@ -69,8 +82,18 @@ export const actions = {
     });
   },
   updateUserSettings(context) {
-    this.$api.service.post('usersettings', context.state.user.settings.values).then(($resp) => {
-    });
+    this.$api.service.post('usersettings', context.state.user.settings.values).then((resp) => {
+      if (resp['success'] == true) {
+        context.commit('ENABLE_USER_SETTING_MODAL', {message: "Settings successfully changed!", success: true});
+      }
+    },((error) => {
+      let errorMessage = error.response.data.errors[Object.keys(error.response.data.errors)[0]][0];
+      context.commit('ENABLE_USER_SETTING_MODAL', {message: errorMessage, success: false});
+    }));
+  }
+  ,
+  disableUserSettingModal(context){
+    context.commit("DISABLE_USER_SETTING_MODAL");
   },
   setUserSetting(context, payload) {
     context.commit('SET_USER_SETTING', payload);

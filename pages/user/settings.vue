@@ -1,8 +1,11 @@
 <template>
   <div id="window" v-if="$store.state.auth.user.settings">
+    <user-settings-feedback-modal v-if="$store.state.auth.userSettingsFeedbackModal.enabled">
+      {{$store.state.auth.userSettingsFeedbackModal.message}}
+    </user-settings-feedback-modal>
     <div class="field">
-      <label class="label">Age</label>
       <div class="control">
+        <label class="label">Age</label>
         <input class="input" type="text" v-model="age">
       </div>
     </div>
@@ -19,8 +22,10 @@
 </template>
 
 <script>
+  import UserSettingsFeedbackModal from "../../components/userSettingsFeedbackModal";
   export default {
     name: "user",
+    components: {UserSettingsFeedbackModal},
     layout: 'signedIn',
     computed:{
       age: {
@@ -29,7 +34,6 @@
         },
         set(newValue) {
           this.$store.dispatch('auth/setUserSetting', ["age", newValue]);
-          this.$store.dispatch('auth/setUserSetting', ["thisshouldnotbeallowed", newValue]);
         },
       },
       dark_mode: {

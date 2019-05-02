@@ -48,7 +48,6 @@
               {title: 'Index', link: '/'},
               {title: 'Posts', link: '/posts'},
               {title: 'List', link: '/posts/list'},
-              {title: 'user', link: '/user/settings'}
             ]
           }
       },
