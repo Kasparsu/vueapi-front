@@ -149,7 +149,7 @@ const wordTypes = {
 const vormid = ['ainsus','mitmus'];
 const kaanded = ['nimetav','omastav','osastav','sisse','sees','seest','alale','alal','alalt','saav','rajav','olev','ilma','kaasa'];
 
-const transformWord = function(text, type, typeWord, ruleset) {
+const transformWord = function(text, type, typeWord, vorm, kaane, ruleset) {
   let base;
 
   if (ruleset.definition == 'original') base = text;
@@ -167,43 +167,41 @@ const getRuleset = function(type, typeWord) {
   let word = wordTypes[type][typeWord];
 
   if (word.definition == 'original') {
-    kaanded.forEach((k) => {
-      let subRule = {};
+    vormid.forEach((v) => {
+      let kaandeRule = {};
 
-      vormid.forEach((v) => {
-        subrule[v] = word[k][v]['changes'];
+      kaanded.forEach((k) => {
+        kaandeRule[k] = word[v][k]['changes'];
       });
-
-      ruleset[kaane] = subRule;
+      ruleset[v] = kaandeRule;
     });
   }
   else if (word.definition == 'copy') {
-    kaanded.forEach((k) => {
-      let subRule = {};
+    vormid.forEach((v) => {
+      let kaandeRule = {};
 
-      let kaane;
-
-      if (word[k]) kaane = word[k];
-      else kaane = getKaane(type, typeWord, k);
-
-      vormid.forEach((v) => {
-        subrule[v] = kaane[v]['changes'];
+      kaanded.forEach((k) => {  
+        let kaane;  
+        if (word[v][k]) kaane = word[v][k];
+        else kaane = getKaane(type, typeWord, vorm, k);
+  
+        kaandeRule[k] = kaane['changes'];
       });
 
-      ruleset[k] = subRule;
+      ruleset[v] = kaandeRule;
     });
   }
   return ruleset;
 }
 
-const getKaane = function(type, typeWord, kaane) {
+const getKaane = function(type, typeWord, vorm, kaane) {
   let oldWord = wordTypes[type][typeWord];
   let word = wordTypes[type][oldWord.lead];
 
-  if (word.definition == 'original') return word[kaane];
+  if (word.definition == 'original') return word[vorm][kaane];
   else if (word.definition == 'copy') {
-    if (word[kaane]) return word[kaane];
-    else return getKaane(type, oldWord.lead, kaane);
+    if (word[vorm][kaane]) return word[vorm][kaane];
+    else return getKaane(type, oldWord.lead, vorm, kaane);
   }
 }
 
