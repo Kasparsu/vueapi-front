@@ -3,10 +3,14 @@
 const wordTypes = {
   'declinable': {
     '1': {
+      /* all rules are original */
+      'definition': 'original',
       'ainsus': {
+        /* all changes are based on word root */
         'nimetav': [{'definition': 'original','changes': { '*': {'offset': 0, 'text': ''}}}],
         'omastav': [{'definition': 'original','changes': { '*': {'offset': 0, 'text': ''}}}],
         'osastav': [{'definition': 'original','changes': { '*': {'offset': 0, 'text': ''}}}],
+        /* all changes are based on lead */
         'sisse': [{'definition': 'addon','lead': 'ainsus/omastav','changes': { '*': {'offset': 0, 'text': 'sse'}}}],
         'sees': [{'definition': 'addon','lead': 'ainsus/omastav','changes': { '*': {'offset': 0, 'text': 's'}}}],
         'seest': [{'definition': 'addon','lead': 'ainsus/omastav','changes': { '*': {'offset': 0, 'text': 'st'}}}],
@@ -66,39 +70,25 @@ const wordTypes = {
         'kaasa': [
           {'definition': 'addon','lead': 'mitmus/omastav','changes': { '*': {'offset': 0, 'text': 'ga'}}},
           {'definition': 'addon','lead': 'mitmus/osastav','changes': { '*': {'offset': -1, 'text': 'ga'}}}
-        ],
+        ]
       }
     },
-
-//umbes siin jäi pooleli
-
     '1e': {
+      /* rules are copied from lead, unless overwritten by new definition */
+      'definition': 'copy',
+      'lead': '1',
       'ainsus': {
-        'nimetav': [
-          {
-            'definition': 'original',
-            'changes': { '*': {'offset': 0, 'text': ''}}
-          }
-        ],
-        'omastav': [
-          {
-            'definition': 'original',
-            'changes': { '*': {'offset': 0, 'text': ''}}
-          }
-        ]
+        
       },
       'mitmus': {
-        'osastav': [
-          {
-            'definition': 'original',
-            'changes': { '*': {'offset': -1, 'text': 'eid'}}
-          }
-        ]
+        'osastav': [{'definition': 'original','changes': { '*': {'offset': -1, 'text': 'eid'}}}],
       }
-      //see ei supporti praegu veskEId 
     },
     '2': {
+      'definition': 'copy',
+      'lead': '1',
       'ainsus': {
+        'nimetav': [{'definition': 'addon','lead': 'ainsus/omastav','changes': { '*': {'offset': 0, 'text': 'd'}}}],
         'omastav': [
           {
             'definition': 'original',
@@ -124,20 +114,16 @@ const wordTypes = {
               'us': {'offset': -2, 'text': 'sa'},
               'ur': {'offset': -2, 'text': 'ru'}, 
             }  
-          },
+          }
         ]
       },
       'mitmus': {
-        'omastav': [
-          {
-            'definition': 'addon',
-            'lead': 'ainsus/omastav',
-            'changes': { '*': {'offset': 0, 'text': 'te'}}
-          }
-        ]
-      }      
+
+      }
     },
     '2e': {
+      'definition': 'copy',
+      'lead': '2',
       'ainsus': {
         'omastav': [
           {
@@ -151,7 +137,51 @@ const wordTypes = {
         ]
       },
       'mitmus': {
-
+        'osastav': [{'definition': 'original','changes': { '*': {'offset': 0, 'text': 'eid'}}}],
+        'sisse': [
+          {'definition': 'addon','lead': 'mitmus/omastav','changes': { '*': {'offset': 0, 'text': 'sse'}}},
+          {'definition': 'original','changes': { '*': {'offset': 0, 'text': 'eisse'}}}
+        ],
+        'sees': [
+          {'definition': 'addon','lead': 'mitmus/omastav','changes': { '*': {'offset': 0, 'text': 's'}}},
+          {'definition': 'original','changes': { '*': {'offset': 0, 'text': 'eis'}}}
+        ],
+        'seest': [
+          {'definition': 'addon','lead': 'mitmus/omastav','changes': { '*': {'offset': 0, 'text': 'st'}}},
+          {'definition': 'original','changes': { '*': {'offset': 0, 'text': 'eist'}}}
+        ],
+        'alale': [
+          {'definition': 'addon','lead': 'mitmus/omastav','changes': { '*': {'offset': 0, 'text': 'le'}}},
+          {'definition': 'original','changes': { '*': {'offset': 0, 'text': 'eile'}}}
+        ],
+        'alal': [
+          {'definition': 'addon','lead': 'mitmus/omastav','changes': { '*': {'offset': 0, 'text': 'l'}}},
+          {'definition': 'original','changes': { '*': {'offset': 0, 'text': 'eil'}}}
+        ],
+        'alalt': [
+          {'definition': 'addon','lead': 'mitmus/omastav','changes': { '*': {'offset': 0, 'text': 'lt'}}},
+          {'definition': 'original','changes': { '*': {'offset': 0, 'text': 'eilt'}}}
+        ],
+        'saav': [
+          {'definition': 'addon','lead': 'mitmus/omastav','changes': { '*': {'offset': 0, 'text': 'ks'}}},
+          {'definition': 'original','changes': { '*': {'offset': 0, 'text': 'eiks'}}}
+        ],
+        'rajav': [
+          {'definition': 'addon','lead': 'mitmus/omastav','changes': { '*': {'offset': 0, 'text': 'ni'}}},
+          {'definition': 'original','changes': { '*': {'offset': 0, 'text': 'eini'}}}
+        ],
+        'olev': [
+          {'definition': 'addon','lead': 'mitmus/omastav','changes': { '*': {'offset': 0, 'text': 'na'}}},
+          {'definition': 'original','changes': { '*': {'offset': 0, 'text': 'eina'}}}
+        ],
+        'ilma': [
+          {'definition': 'addon','lead': 'mitmus/omastav','changes': { '*': {'offset': 0, 'text': 'ta'}}},
+          {'definition': 'original','changes': { '*': {'offset': 0, 'text': 'eita'}}}
+        ],
+        'kaasa': [
+          {'definition': 'addon','lead': 'mitmus/omastav','changes': { '*': {'offset': 0, 'text': 'ga'}}},
+          {'definition': 'original','changes': { '*': {'offset': 0, 'text': 'eiga'}}}
+        ]
       }
     }
   },
