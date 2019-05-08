@@ -1,6 +1,6 @@
 <template>
   <table class="table is-bordered is-hoverable is-striped">
-    <thead>
+    <thead class="listHead">
     <td v-for="key in keys">{{key.title}}</td>
     <td v-if="actions">actions</td>
     </thead>
