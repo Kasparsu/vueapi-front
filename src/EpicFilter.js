@@ -81,14 +81,13 @@ const wordTypes = {
         
       },
       'mitmus': {
-        'osastav': [{'definition': 'original','changes': { '*': {'offset': -1, 'text': 'eid'}}}],
+        'osastav': [{'definition': 'addon','lead':'ainsus/omastav','changes': { '*': {'offset': -1, 'text': 'eid'}}}],
       }
     },
     '2': {
       'definition': 'copy',
       'lead': '1',
       'ainsus': {
-        'nimetav': [{'definition': 'addon','lead': 'ainsus/omastav','changes': { '*': {'offset': 0, 'text': 'd'}}}],
         'omastav': [
           {
             'definition': 'original',
@@ -123,7 +122,7 @@ const wordTypes = {
     },
     '2e': {
       'definition': 'copy',
-      'lead': '2',
+      'lead': '1e',
       'ainsus': {
         'omastav': [
           {
@@ -137,7 +136,7 @@ const wordTypes = {
         ]
       },
       'mitmus': {
-        'osastav': [{'definition': 'addon','lead':'ainsus/omastav','changes': { '*': {'offset': -1, 'text': 'eid'}}}],        
+        
       }
     }
   },
@@ -151,7 +150,31 @@ export default class EpicFilter {
 
   };
 
+  /* actual cleaning functionality */
+
   clean(text) {
     return "puhas";
   }
+
+  addSwearWord(word) {
+
+  }
+
+  /* */
+
+
+
+  /* word declination and conjugation functionality */
+
+  // text: word in its root form, for example "akvaarium", "loeng"
+  // type word: word's typeword, for example 1, 2e
+  getWord(text, typeWord) {
+    return {'text': text,'typeWord': typeWord};
+  }
+
+  getWordTransformations(word) {
+
+  }
+
+  /* */
 }
