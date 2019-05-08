@@ -1,7 +1,7 @@
 // teoreetiliselt kuna eesti keeles enamik käändeid ehituvad üles sõna omastavale käändele midagi liites, saaks seda ka arvestada ja teha targema süsteemi. aga ma ei viitsi
 
 const wordTypes = {
-  'declinable': {
+  'kaand': {
     '1': {
       /* all rules are original */
       'definition': 'original',
@@ -98,9 +98,10 @@ const wordTypes = {
               'm': {'offset': 0, 'text': 'a'},
               'v': {'offset': 0, 'text': 'a'},
               'b': {'offset': 0, 'text': 'e'},
+              /* 'ud' has to be before 'd' because otherwise all 'ud' would get counted as 'd' */
               'ud': {'offset': -1, 'text': ''},
               'd': {'offset': 0, 'text': 'e'},
-              'e': {'offset': 0, 'text': 'da'},        
+              'e': {'offset': 0, 'text': 'da'},
               'oodne': {'offset': -2, 'text': 'sa'},
               'ne': {'offset': -2, 'text': 'se'},
               'sas': {'offset': -1, 'text': 'nda'},
@@ -140,10 +141,71 @@ const wordTypes = {
       }
     }
   },
-  'conjugable': {
+  'poord': {
     
   }  
 };
+
+const vormid = ['ainsus','mitmus'];
+const kaanded = ['nimetav','omastav','osastav','sisse','sees','seest','alale','alal','alalt','saav','rajav','olev','ilma','kaasa'];
+
+const transformWord = function(text, type, typeWord, ruleset) {
+  let base;
+
+  if (ruleset.definition == 'original') base = text;
+  else if (ruleset.definition == 'addon') {
+    path = ruleset.lead.split('/');
+    base = transformWord(text, type, typeWord, path[0], path[1]);
+  }
+
+
+}
+
+const getRuleset = function(type, typeWord) {
+  let ruleset = {};
+
+  let word = wordTypes[type][typeWord];
+
+  if (word.definition == 'original') {
+    kaanded.forEach((k) => {
+      let subRule = {};
+
+      vormid.forEach((v) => {
+        subrule[v] = word[k][v]['changes'];
+      });
+
+      ruleset[kaane] = subRule;
+    });
+  }
+  else if (word.definition == 'copy') {
+    kaanded.forEach((k) => {
+      let subRule = {};
+
+      let kaane;
+
+      if (word[k]) kaane = word[k];
+      else kaane = getKaane(type, typeWord, k);
+
+      vormid.forEach((v) => {
+        subrule[v] = kaane[v]['changes'];
+      });
+
+      ruleset[k] = subRule;
+    });
+  }
+  return ruleset;
+}
+
+const getKaane = function(type, typeWord, kaane) {
+  let oldWord = wordTypes[type][typeWord];
+  let word = wordTypes[type][oldWord.lead];
+
+  if (word.definition == 'original') return word[kaane];
+  else if (word.definition == 'copy') {
+    if (word[kaane]) return word[kaane];
+    else return getKaane(type, oldWord.lead, kaane);
+  }
+}
 
 export default class EpicFilter {
   constructor() {
@@ -167,13 +229,30 @@ export default class EpicFilter {
   /* word declination and conjugation functionality */
 
   // text: word in its root form, for example "akvaarium", "loeng"
+  // type: words type, 'kaand' or 'poord'
   // type word: word's typeword, for example 1, 2e
-  getWord(text, typeWord) {
-    return {'text': text,'typeWord': typeWord};
+  getWord(text, type, typeWord) {
+    return {'text': text,'type': type, 'typeWord': typeWord};
   }
 
   getWordTransformations(word) {
+    let transformations = {};
 
+    let typeWord = wordTypes[word.type][word.typeWord];
+
+    kaanded.forEach((kaane) => {
+      let transKaane = {};
+
+      vormid.forEach((vorm) => {
+        let transVorm = {};
+
+        let ruleset = getRuleset(type, typeWord, kaane, vorm);
+
+        transKaane[vorm] = transVorm;
+      });
+      transformations[kaane] = transKaane;
+    });
+    return transformations;
   }
 
   /* */
