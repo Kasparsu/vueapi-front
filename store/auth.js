@@ -34,6 +34,13 @@ export const actions = {
     this.$api.service.post('login', context.state.forms.login).then((resp) => {
       context.dispatch('setToken', resp.token);
       this.$router.go({ path: '/posts' })
+    })
+    .catch(function (error) {
+      if({error}.error.response.status == 400) {
+        console.log("Tuli error 400");
+        document.getElementById("error_text").innerHTML = "Invalid credentials";
+      }
+      console.log("errrr", {error});
     });
   },
   setToken(context, token){
@@ -55,7 +62,15 @@ export const actions = {
       context.dispatch('setToken', resp.token);
       context.commit('SET_USER', resp.user);
       this.$router.go({ path: '/posts' })
-    });
+    })
+    .catch(function (error) {
+      if({error}.error.response.status == 400) {
+        console.log("Tuli error 400");
+        document.getElementById("error_text").innerHTML = "Invalid credentials";
+      }
+
+      console.log("EROOR", {error});
+    });;
   },
   refresh(context) {
     this.$api.service.get('refresh').then((resp) => {

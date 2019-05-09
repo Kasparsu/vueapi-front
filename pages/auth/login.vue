@@ -2,6 +2,7 @@
   <div class="columns is-centered">
     <div class="column is-5">
       <div class="field">
+        <div class="error_holder"><a id="error_text"></a></div>
         <div class="field">
           <div class="control">
             <input class="input" v-model="email" type="text" placeholder="email">
@@ -30,7 +31,7 @@
       mounted(){
       },
       methods: {
-        login(){
+        login() {
           this.$store.dispatch('auth/login');
         }
       },
@@ -56,5 +57,15 @@
 </script>
 
 <style scoped>
+
+  .error_holder{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  #error_text{
+    color: red;
+  }
 
 </style>
