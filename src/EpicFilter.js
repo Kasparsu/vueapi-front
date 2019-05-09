@@ -24,7 +24,7 @@ const wordTypes = {
         'kaasa': [{'definition': 'addon','lead': 'ainsus/omastav','changes': { '*': {'offset': 0, 'text': 'ga'}}}],
       },
       'mitmus': {
-        'nimetav': [{'definition': 'addon','lead': 'ainsus/nimetav','changes': { '*': {'offset': 0, 'text': 'd'}}}],
+        'nimetav': [{'definition': 'addon','lead': 'ainsus/omastav','changes': { '*': {'offset': 0, 'text': 'd'}}}],
         'omastav': [{'definition': 'addon','lead': 'ainsus/omastav', 'changes': { '*': {'offset': 0, 'text': 'te'}}}],
         'osastav': [{'definition': 'addon','lead': 'ainsus/omastav','changes': { '*': {'offset': 0, 'text': 'id'}}}],
         'sisse': [
@@ -149,18 +149,6 @@ const wordTypes = {
 const vormid = ['ainsus','mitmus'];
 const kaanded = ['nimetav','omastav','osastav','sisse','sees','seest','alale','alal','alalt','saav','rajav','olev','ilma','kaasa'];
 
-const transformWord = function(text, type, typeWord, vorm, kaane, ruleset) {
-  let base;
-
-  if (ruleset.definition == 'original') base = text;
-  else if (ruleset.definition == 'addon') {
-    path = ruleset.lead.split('/');
-    base = transformWord(text, type, typeWord, path[0], path[1]);
-  }
-
-
-}
-
 // text: word in its root form, for example "akvaarium", "loeng"
 // type: words type, 'kaand' or 'poord'
 // type word: word's typeword, for example 1, 2e
@@ -177,21 +165,55 @@ const getWordTransformations = function(word) {
     transformations[v] = {};
 
     kaanded.forEach((k) => {
-      transformations[v][k] = [];
-
-      let rules = ruleset[v][k];
-      for (let i = 0; i < rules.length; i++)
-      {
-        let rule = rules[i];
-        transformations[v][k][i] = getTransform(word.text, word.rule, word.ruleset);
-      }
+      transformations[v][k] = getTransforms(word.text, v, k, ruleset);
     });
   });
   return transformations;
 }
 
-const getTransform = function(text, rule, ruleset) {
-  return "s";
+const getTransforms = function(text, v, k, ruleset) {
+  let transforms = [];
+
+  let rules = ruleset[v][k];
+  for (let i = 0; i < rules.length; i++)
+  {
+    let rule = rules[i];
+        
+    let edits;
+    if (rule.definition == 'original') edits = [ text ];
+    else if (rule.definition == 'addon') {
+      let path = rule.lead.split('/');
+      edits = getTransforms(text, path[0], path[1], ruleset);
+    }
+
+    for (let l = 0; l < edits.length; l++) {
+      let edit = edits[l];
+      let ch = rule.changes;
+
+      for (var key in ch) {
+        if (ch.hasOwnProperty(key)) {
+          if (textEndsWith(edit, key)) {
+            var change = ch[key];
+            var newText = edit.substring(0, edit.length - change.offset) + change.text;
+            transforms.push(newText);
+          }
+        }
+      }
+    }
+  }
+
+  return transforms;
+}
+
+const textEndsWith = function(text, ending) {
+  if (ending == '*') return true;
+  else {
+    if (text.length >= ending.length) {
+      let textEnd = text.substring(text.length - ending.length);
+      return textEnd == ending;
+    }
+    else return false;
+  }
 }
 
 const getRuleset = function(type, typeWord) {
@@ -206,11 +228,6 @@ const getRuleset = function(type, typeWord) {
       let kaane = getKaane(type, typeWord, v, k);
 
       ruleset[v][k] = kaane;
-
-      for (let i = 0; i < kaane.length; i++)
-      {
-
-      }
     });
   });
 
