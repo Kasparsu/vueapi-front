@@ -1,5 +1,6 @@
 <template>
   <div class="field">
+    <div class="error_holder"><a id="error_text"></a></div>
     <div class="field">
       <div class="control has-icons-left has-icons-right">
         <input class="input" v-model="title" type="text" placeholder="title">
@@ -55,5 +56,15 @@
 </script>
 
 <style scoped>
+
+  .error_holder{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  #error_text{
+    color: red;
+  }
 
 </style>

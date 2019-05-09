@@ -115,6 +115,14 @@ export const actions = {
       console.log(response);
       let index = context.state.list.findIndex(el => el.id==response.id);
       context.commit('SET_POST', {data:response, index: index});
+    })
+
+    .catch(function (error) {
+      if({error}.error.response.status == 500) {
+        console.log("Tuli error 500");
+        document.getElementById("error_text").innerHTML = "Please fill the boxes.";
+      }
+      //console.log("errrr", {error});
     });
   },
   deletePost(context,id) {
@@ -129,6 +137,13 @@ export const actions = {
       context.commit('TOGGLE_MODAL', 'edit');
       let pagination = context.state.pagination;
         context.dispatch('loadPostPage', context.state.pagination.current_page);
+    })
+    .catch(function (error) {
+      if({error}.error.response.status == 500) {
+        console.log("Tuli error 500");
+        document.getElementById("error_text").innerHTML = "Please fill the boxes.";
+      }
+      //console.log("errrr", {error});
     });
   },
   likePost(context, postId){
@@ -175,6 +190,14 @@ export const actions = {
     this.$api.posts.comment(context.state.single.id, context.state.comment.text).then(resp => {
       context.commit('SET_COMMENT_TEXT', '');
       context.commit('SET_SINGLE_POST', resp);
+      document.getElementById("error_text").innerHTML = "";
+    })
+    .catch(function (error) {
+      if({error}.error.response.status == 500) {
+        console.log("Tuli error 500");
+        document.getElementById("error_text").innerHTML = "Please fill the box.";
+      }
+      //console.log("errrr", {error});
     });
   },
   setCommentText(context, value){

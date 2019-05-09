@@ -1,6 +1,7 @@
 <template>
   <article class="message is-dark">
     <div class="message-body">
+      <div class="error_holder"><a id="error_text"></a></div>
       <textarea v-model="commentText" @input="resize" class="input"></textarea>
       <button class="input button is-primary is-12" @click="postComment">Submit</button>
     </div>
@@ -33,4 +34,14 @@
 </script>
 
 <style scoped>
+  .error_holder{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  #error_text{
+    color: red;
+    text-decoration: none;
+  }
 </style>
