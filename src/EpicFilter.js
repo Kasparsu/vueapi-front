@@ -161,6 +161,25 @@ const transformWord = function(text, type, typeWord, vorm, kaane, ruleset) {
 
 }
 
+// text: word in its root form, for example "akvaarium", "loeng"
+// type: words type, 'kaand' or 'poord'
+// type word: word's typeword, for example 1, 2e
+const getWord = function(text, type, typeWord) {
+  return {'text': text,'type': type, 'typeWord': typeWord};
+}
+
+const getWordTransformations = function(word) {
+  ruleset = getRuleset(word.type, word.typeWord);
+
+  let transformations = {}
+
+  vormid.forEach((v) => {
+    kaanded.forEach((k) => {
+
+    });
+  });
+}
+
 const getRuleset = function(type, typeWord) {
   let ruleset = {};
 
@@ -209,39 +228,4 @@ export default class EpicFilter {
   addSwearWord(word) {
 
   }
-
-  /* */
-
-
-
-  /* word declination and conjugation functionality */
-
-  // text: word in its root form, for example "akvaarium", "loeng"
-  // type: words type, 'kaand' or 'poord'
-  // type word: word's typeword, for example 1, 2e
-  getWord(text, type, typeWord) {
-    return {'text': text,'type': type, 'typeWord': typeWord};
-  }
-
-  getWordTransformations(word) {
-    let transformations = {};
-
-    let typeWord = wordTypes[word.type][word.typeWord];
-
-    kaanded.forEach((kaane) => {
-      let transKaane = {};
-
-      vormid.forEach((vorm) => {
-        let transVorm = {};
-
-        let ruleset = getRuleset(type, typeWord, kaane, vorm);
-
-        transKaane[vorm] = transVorm;
-      });
-      transformations[kaane] = transKaane;
-    });
-    return transformations;
-  }
-
-  /* */
 }
