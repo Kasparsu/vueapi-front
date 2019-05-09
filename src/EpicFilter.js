@@ -166,42 +166,31 @@ const getRuleset = function(type, typeWord) {
 
   let word = wordTypes[type][typeWord];
 
-  if (word.definition == 'original') {
-    vormid.forEach((v) => {
-      let kaandeRule = {};
+  vormid.forEach((v) => {
+    ruleset[v] = {};
 
-      kaanded.forEach((k) => {
-        kaandeRule[k] = word[v][k]['changes'];
-      });
-      ruleset[v] = kaandeRule;
+    kaanded.forEach((k) => {  
+      let kaane = getKaane(type, typeWord, v, k);
+
+      ruleset[v][k] = kaane;
+
+      for (let i = 0; i < kaane.length; i++)
+      {
+
+      }
     });
-  }
-  else if (word.definition == 'copy') {
-    vormid.forEach((v) => {
-      let kaandeRule = {};
+  });
 
-      kaanded.forEach((k) => {  
-        let kaane;  
-        if (word[v][k]) kaane = word[v][k];
-        else kaane = getKaane(type, typeWord, vorm, k);
-  
-        kaandeRule[k] = kaane['changes'];
-      });
-
-      ruleset[v] = kaandeRule;
-    });
-  }
   return ruleset;
 }
 
 const getKaane = function(type, typeWord, vorm, kaane) {
-  let oldWord = wordTypes[type][typeWord];
-  let word = wordTypes[type][oldWord.lead];
+  let word = wordTypes[type][typeWord];
 
   if (word.definition == 'original') return word[vorm][kaane];
   else if (word.definition == 'copy') {
     if (word[vorm][kaane]) return word[vorm][kaane];
-    else return getKaane(type, oldWord.lead, vorm, kaane);
+    else return getKaane(type, word.lead, vorm, kaane);
   }
 }
 
@@ -213,7 +202,8 @@ export default class EpicFilter {
   /* actual cleaning functionality */
 
   clean(text) {
-    return "puhas";
+    //return "puhas";
+    return JSON.stringify(getRuleset('kaand', '1e'));
   }
 
   addSwearWord(word) {
