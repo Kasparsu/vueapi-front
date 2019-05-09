@@ -169,15 +169,29 @@ const getWord = function(text, type, typeWord) {
 }
 
 const getWordTransformations = function(word) {
-  ruleset = getRuleset(word.type, word.typeWord);
+  let ruleset = getRuleset(word.type, word.typeWord);
 
   let transformations = {}
 
   vormid.forEach((v) => {
-    kaanded.forEach((k) => {
+    transformations[v] = {};
 
+    kaanded.forEach((k) => {
+      transformations[v][k] = [];
+
+      let rules = ruleset[v][k];
+      for (let i = 0; i < rules.length; i++)
+      {
+        let rule = rules[i];
+        transformations[v][k][i] = getTransform(word.text, word.rule, word.ruleset);
+      }
     });
   });
+  return transformations;
+}
+
+const getTransform = function(text, rule, ruleset) {
+  return "s";
 }
 
 const getRuleset = function(type, typeWord) {
@@ -222,7 +236,9 @@ export default class EpicFilter {
 
   clean(text) {
     //return "puhas";
-    return JSON.stringify(getRuleset('kaand', '1e'));
+    let word = getWord("õpik", "kaand", "2");
+    let transformations = getWordTransformations(word);
+    return JSON.stringify(transformations);
   }
 
   addSwearWord(word) {
