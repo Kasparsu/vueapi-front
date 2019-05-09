@@ -5,6 +5,12 @@
   </div>
 </template>
 
+// Darkmode color sheet
+// Text: #fefefe
+// Tausta värv: #lble21
+// Hover/Highlight värv: #3273dc
+// Heledamad elemendid: #333949
+
 <style>
   .background-dark{
     background-color: #1b1e21;
@@ -68,7 +74,7 @@
   .background-dark .card-footer-item:hover{
     color: mediumpurple;
   }
-  
+
 </style>
 <script>
   import MainMenu from "../components/mainmenu";
