@@ -1,5 +1,6 @@
 export const state = () => ({
   user: {},
+  darkModeEnabled: true,
   token: '',
   forms: {
     login: {

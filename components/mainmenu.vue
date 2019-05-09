@@ -38,7 +38,7 @@
 <script>
     export default {
         name: "mainmenu",
-      data() {
+        data() {
           return {
             links: [
               {title: 'Index', link: '/'},
