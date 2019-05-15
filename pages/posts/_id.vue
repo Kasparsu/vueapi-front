@@ -6,15 +6,14 @@
       <comment-list :comments="post.comments"></comment-list>
     </div>
   </div>
-
 </template>
 
 <script>
   var faker = require('faker');
-    import Post from "../../components/post";
-    import Comment from "../../components/Comment";
-    import CommentForm from "../../components/forms/comment";
-    import CommentList from "../../components/CommentList";
+  import Post from "../../components/post";
+  import Comment from "../../components/Comment";
+  import CommentForm from "../../components/forms/comment";
+  import CommentList from "../../components/CommentList";
     export default {
         name: "_id",
       components: {CommentList, CommentForm, Comment, Post},
@@ -66,6 +65,6 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
 </style>

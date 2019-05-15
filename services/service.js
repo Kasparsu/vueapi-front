@@ -48,4 +48,7 @@ export default class Service {
   create(data){
     return this.put('', data);
   }
+  sendMessage(data){
+    return this.post('message',{content:data})
+  }
 }

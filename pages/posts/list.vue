@@ -16,6 +16,7 @@
     import ListTable from "../../components/listTable";
     import Pagination from "../../components/pagination";
     import Modal from "../../components/modal";
+    import Post from "../../components/post";
     import PostForm from "../../components/forms/post";
     export default {
         name: "list",
