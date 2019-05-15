@@ -244,21 +244,51 @@ const getKaane = function(type, typeWord, vorm, kaane) {
   }
 }
 
+const nl = "\\s";
+
+//(?:^|(?![\s]))veskisse(?=[\s]|$)
+
 export default class EpicFilter {
   constructor() {
-
+    this.masterList = [];
   };
 
-  /* actual cleaning functionality */
-
   clean(text) {
-    //return "puhas";
-    let word = getWord("õpik", "kaand", "2");
-    let transformations = getWordTransformations(word);
-    return JSON.stringify(transformations);
+    
+    //return "puhas";    
+    this.masterList.forEach((bad) => {
+
+      let regex = "(?:^|[" + nl + "])" + bad + "(?=[" + nl +"]|$)";
+
+      // index is offset 1 because of NON-CAPTURING GROUP CAPTURING but luckily it doesnt matter
+      let index = text.search(regex);
+
+      if (index != -1) {
+        let good = '*'.repeat(bad.length);
+        text = text.replace(bad, good);
+      }
+    });
+
+    return text;
   }
 
   addSwearWord(word) {
+    let transformations = getWordTransformations(word);
 
+    vormid.forEach((v) => {  
+      kaanded.forEach((k) => { 
+        transformations[v][k].forEach((word) => {
+          this.masterList.push(word);
+        });   
+      });
+    });
+  }
+
+  getKaandWord(text, typeGroup) {
+    return getWord(text, "kaand", typeGroup);
+  }
+
+  getPoordWord(text, typeGroup) {
+    return getWord(text, "poord", typeGroup);
   }
 }
