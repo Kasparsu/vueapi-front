@@ -194,7 +194,7 @@ const getTransforms = function(text, v, k, ruleset) {
         if (ch.hasOwnProperty(key)) {
           if (textEndsWith(edit, key)) {
             var change = ch[key];
-            var newText = edit.substring(0, edit.length - change.offset) + change.text;
+            var newText = edit.substring(0, edit.length + change.offset) + change.text;
             transforms.push(newText);
           }
         }
