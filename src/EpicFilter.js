@@ -244,9 +244,9 @@ const getKaane = function(type, typeWord, vorm, kaane) {
   }
 }
 
-const nl = "\\s";
+const nl = "\\s,.;\\:\\!\\?\\-_\\(\\)\\[\\]\\{\\}/\\+=*'\"@#"; //\\s\\pP\\p{Sc}
 
-//(?:^|(?![\s]))veskisse(?=[\s]|$)
+// (?:^|[\s\pP\p{Sc}])veski(?=[\s\pP\p{Sc}]|$)
 
 export default class EpicFilter {
   constructor() {
@@ -258,7 +258,7 @@ export default class EpicFilter {
     //return "puhas";    
     this.masterList.forEach((bad) => {
 
-      let regex = "(?:^|[" + nl + "])" + bad + "(?=[" + nl +"]|$)";
+      let regex = "(?:^|[" + nl + "])" + bad + "(?=[" + nl + "]|$)";
 
       // index is offset 1 because of NON-CAPTURING GROUP CAPTURING but luckily it doesnt matter
       let index = text.search(regex);
