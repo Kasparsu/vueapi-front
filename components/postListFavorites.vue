@@ -1,5 +1,5 @@
 <template>
-  <div v-scroll="handle">
+  <div >
     <post v-for="post in $store.state.posts.list" :post="post"></post>
   </div>
 

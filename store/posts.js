@@ -66,11 +66,20 @@ export const mutations = {
 export const actions = {
   loadFavoritesPosts(context){
     this.$api.service.get('favorites/get').then((response)=>{
-      context.commit('ADD_POSTS', response.data);
-      // delete response.data;
-      // context.commit('SET_PAGINATION', response);
-      // context.commit('TOGGLE_IS_LOADING');
+      context.commit('SET_POSTS', response.data);
     })
+  },
+  saveFavoritePost(context, id){
+        let post = Object.assign({}, context.state.list.filter((el)=> el.id == id)[0]);
+        let index = context.state.list.findIndex(el => el.id==id);
+        context.commit('SET_POST', {data:{...post, is_favourite: !post.is_favourite}, index: index});
+
+        this.$api.service.post(`favorites/${id}/save`).then((res)=> {
+
+          console.log(res)
+        })
+
+
   },
   loadNextPosts(context) {
     context.commit('TOGGLE_IS_LOADING');
