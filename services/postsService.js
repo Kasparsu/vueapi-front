@@ -24,4 +24,10 @@ export default class PostsService extends Service {
   pollComments(postId, length){
     return this.get(postId + '/comments?length=' + length);
   }
+  reaction(postId, value){
+    return this.get(postId + '/react/' + value);
+  }
+  unreaction(postId){
+    return this.get(postId + '/unreact');
+  }
 }
