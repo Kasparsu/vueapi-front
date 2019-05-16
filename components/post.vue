@@ -25,6 +25,12 @@
         <a class="card-footer-item" :class="{'has-text-danger': post.is_disliked}" @click="doDislike"><i class="fas fa-heart-broken is-danger"></i>({{ post.dislikes_count }})</a>
         <nuxt-link v-if="$route.name != 'posts-id'" :to="'/posts/' + post.id" class="card-footer-item"><i class="fas fa-comment"></i>({{post.comments_count}})</nuxt-link>
       </footer>
+      <footer class="card-footer">
+        <a class="card-footer-item" :class="{'has-text-danger': post.reaction_value===1}" @click="doJoy">😂({{ post.reaction_count[0] }})</a>
+        <a class="card-footer-item" :class="{'has-text-danger': post.reaction_value===2}" @click="doSurprised">😮({{ post.reaction_count[1] }})</a>
+        <a class="card-footer-item" :class="{'has-text-danger': post.reaction_value===3}" @click="doCry">😭({{ post.reaction_count[2] }})</a>
+        <a class="card-footer-item" :class="{'has-text-danger': post.reaction_value===4}" @click="doAngery">😡({{ post.reaction_count[3] }})</a>
+      </footer>
     </div>
   </div>
 </template>
@@ -39,6 +45,18 @@
           },
           doDislike(){
             this.$store.dispatch('posts/dislikePost', this.post.id);
+          },
+          doJoy(){
+            this.$store.dispatch('posts/reactPost', {id:this.post.id, value:1});
+          },
+          doSurprised(){
+            this.$store.dispatch('posts/reactPost', {id:this.post.id, value:2});
+          },
+          doCry(){
+            this.$store.dispatch('posts/reactPost', {id:this.post.id, value:3});
+          },
+          doAngery(){
+            this.$store.dispatch('posts/reactPost', {id:this.post.id, value:4});
           }
       }
     }
