@@ -157,6 +157,18 @@ export const actions = {
       context.commit('SET_POST', {data:response, index: index});
     });
   },
+  reactPost(context, value){
+    let post = context.state.list.filter((el)=> el.id == value.id)[0];
+    let call;
+    if(post.reaction_value!=value.value)
+      call = this.$api.posts.reaction(value.id, value.value);
+    else
+      call = this.$api.posts.unreaction(value.id);
+    call.then( response =>{
+      let index = context.state.list.findIndex(el => el.id==response.id);
+      context.commit('SET_POST', {data:response, index: index});
+    });
+  },
   getPost(context, postId){
     let posts = context.state.list;
     if(posts.length){
