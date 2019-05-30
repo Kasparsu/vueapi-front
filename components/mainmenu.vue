@@ -21,9 +21,9 @@
           </a>
 
           <div class="navbar-dropdown is-right">
-            <a class="navbar-item">
+            <nuxt-link :to="'/profile/' + 1/*$store.state.auth.user.id*/"  class="navbar-item" >
               Profile
-            </a>
+            </nuxt-link>
             <hr class="navbar-divider">
             <a class="navbar-item" @click="$store.dispatch('auth/logout')">
               Logout
@@ -37,14 +37,15 @@
 
 <script>
     export default {
-        name: "mainmenu",
+      name: "mainmenu",
       data() {
           return {
             links: [
               {title: 'Index', link: '/'},
               {title: 'Posts', link: '/posts'},
               {title: 'List', link: '/posts/list'}
-            ]
+            ],
+            id:this.$store.state.auth.user.id
           }
       },
       methods: {
